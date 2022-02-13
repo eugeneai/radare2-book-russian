@@ -564,24 +564,24 @@ Usage: r2 [-ACdfLMnNqStuvwzX] [-P patch] [-p prj] [-a arch] [-b bits] [-i file]
 <li><a href="https://github.com/radareorg/cutter">https://github.com/radareorg/cutter</a>.</li>
 </ul>
 <p><img src="first_steps/Cutter.png" alt="Cutter" /></p>
-<h2><a class="header" href="#basic-radare2-usage" id="basic-radare2-usage">Basic Radare2 Usage</a></h2>
-<p>The learning curve is usually somewhat steep at the beginning. Although after an hour of using it you should easily understand how most things work, and how to combine the various tools radare offers. You are encouraged to read the rest of this book to understand how some non-trivial things work, and to ultimately improve your skills.</p>
+<h2><a class="header" href="#Базовое-использование-radare2" id="Базовое-использование-radare2">Базовое использование Radare2</a></h2>
+<p>Кривая обучения обычно несколько крута в только в самом начале. После часа использования уже можно легко понять, как работает большинство функций, и как можно комбинировать различные инструменты радара. Вам предлагается прочитать оставшуюся часть этой книги, чтобы понять, как работают некоторые нетривиальные вещи, и в конечном итоге улучшить свои навыки.</p>
 <p><img src="first_steps/learning_curve.png" alt="learning_curve" /></p>
-<p>Navigation, inspection and modification of a loaded binary file is performed using three simple actions: seek (to position), print (buffer), and alternate (write, append).</p>
-<p>The 'seek' command is abbreviated as <code>s</code> and accepts an expression as its argument. The expression can be something like <code>10</code>, <code>+0x25</code>, or <code>[0x100+ptr_table]</code>. If you are working with block-based files, you may prefer to set the block size to a required value with <code>b</code> command, and seek forward or backwards with positions aligned to it. Use <code>s++</code> and <code>s--</code> commands to navigate this way.</p>
-<p>If radare2 opens an executable file, by default it will open the file in Virtual Addressing (VA) mode and the sections will be mapped to their virtual addresses. In VA mode, seeking is based on the virtual address and the starting position is set to the entry point of the executable. Using <code>-n</code> option you can suppress this default behavior and ask radare2 to open the file in non-VA mode for you. In non-VA mode, seeking is based on the offset from the beginning of the file.</p>
-<p>The 'print' command is abbreviated as <code>p</code> and has a number of submodes — the second letter specifying a desired print mode. Frequent variants include <code>px</code> to print in hexadecimal, and <code>pd</code> for disassembling.</p>
-<p>To be allowed to write files, specify the <code>-w</code> option to radare2 when opening a file. The <code>w</code> command can be used to write strings, hexpairs (<code>x</code> subcommand), or even assembly opcodes (<code>a</code> subcommand). Examples:</p>
-<pre><code>&gt; w hello world         ; string
-&gt; wx 90 90 90 90        ; hexpairs
-&gt; wa jmp 0x8048140      ; assemble
-&gt; wf inline.bin         ; write contents of file
+<p>Перемещение по адресам, исследование и правка загруженного двоичного файла выполняются при помощи трех простых действий: перемещение по адресному пространству (в некоторый адрес), отображение (буфера) и внесение изменений (запись, добавление).</p>
+<p>Команда «seek» обозначается аббревиатурой <code>s</code>, она принимает выражение в качестве аргумента. Выражение может быть следующего вида - <code>10</code>, <code>+0x25</code>, или даже <code>[0x100+ptr_table]</code>. Если вы хотите работать с блочными файлами, вы можете зафиксировать размер блока с помощью команды <code>b</code> и осуществлять перемещение по памяти вперед или назад по адресам байтов. Использование <code>s++</code> и <code>s--</code> аналогично позволяет перемещаться по памяти.</p>
+<p>Если в radare2 открыть исполняемый файл, то по умолчанию он откроется в режиме виртуальной адресации (VA), и секции файла будут отображены в их виртуальные адреса. В режиме VA основа перемещения по адресам - этот виртуальный адрес, а начальная позиция устанавливается в точку входа исполняемого файла. Использование ключа <code>-n</code> позволяет отменить загрузку в данном режиме, при этом radare2 откроет файл в не-VA режиме. В режиме не-VA перемещение по адресам осуществляется относительно начала файла.</p>
+<p>Команда 'print' также имеет сокращенный вариант <code>p</code> и включает несколько вариантов функционирования, вторая буква указывает как раз требуемый режим отображения. Наиболее часто встречаются <code>px</code>, отбражающий данные в виде шеснадцатеричного дампа, <code>pd</code> - дизассемблирование кода.</p>
+<p>Чтобы radare2 мог сохранять изменения в исследуемых файлах, надо указать флаг <code>-w</code> в командной строке при открытии файла. Команда <code>w</code> используется для записи строк в исходный файл, шестнадцатеричных кодов (режим <code>x</code>) или даже ассемблерные коды операций (режим <code>a</code>). Примеры:</p>
+<pre><code>&gt; w hello world         ; строка
+&gt; wx 90 90 90 90        ; шеснадцатеричные данные
+&gt; wa jmp 0x8048140      ; ассемблирование
+&gt; wf inline.bin         ; запись содержимого из файла
 </code></pre>
-<p>Appending a <code>?</code> to a command will show its help message, for example, <code>p?</code>.
-Appending <code>?*</code> will show commands starting with the given string, e.g. <code>p?*</code>.</p>
-<p>To enter visual mode, press <code>V&lt;enter&gt;</code>. Use <code>q</code> to quit visual mode and return to the prompt.</p>
-<p>In visual mode you can use HJKL keys to navigate (left, down, up, and right, respectively). You can use these keys in cursor mode toggled by <code>c</code> key. To select a byte range in cursor mode, hold down <code>SHIFT</code> key, and press navigation keys HJKL to mark your selection.</p>
-<p>While in visual mode, you can also overwrite bytes by pressing <code>i</code>. You can press <code>TAB</code> to switch between the hex (middle) and string (right) columns. Pressing <code>q</code> inside the hex panel returns you to visual mode. By pressing <code>p</code> or <code>P</code> you can scroll different visual mode representations. There is a second most important visual mode - curses-like panels interface, accessible with <code>V!</code> command.</p>
+<p>Добавление символа <code>?</code> к любой команде показывает подсказку, например, <code>p?</code>.
+Если написать <code>?*</code>, то получим список команд, начинающихся с заданной строки, например, <code>p?*</code>.</p>
+<p>Визуальный режим запускается вводом <code>V&lt;enter&gt;</code>. По клавише <code>q</code> можно выйти из этого режима и вернуться в привычный режим командной строки.</p>
+<p>В визуальном режиме для перемещений используются клавиши HJKL (влево, вниз, вверх и вправо, соответственно). Также можно использовать эти клавиши в режиме курсора, режим переключается клавшей <code>c</code>. Чтобы выбрать диапазон байтов в режиме курсора, одновременно нажмите <code>Shift</code> и клавиши навигации HJKL, в результате radare2 выделит область.</p>
+<p>В визуальном режиме также можно переписывать байты, нажав <code>i</code>. Нажатием клавиши <code>TAB</code> осуществляется перемещение между панелями шеснадцатеричных кодов (посередине) и строчным представлением (справа). Нажатие <code>q</code> в панели шеснадцатеричного представления приводит к возвращению в визуальный режим. Нажатием <code>p</code> или <code>P</code> приводит к циклическому переключению различных режимов визуального представления. Существует второй по важности визуальный режим — интерфейс панелей, похожий на curses, доступный при помощи комбинации <code>V!</code>.</p>
 <h2><a class="header" href="#command-line-options" id="command-line-options">Command-line Options</a></h2>
 <p>The radare core accepts many flags from the command line.</p>
 <p>This is an excerpt from the usage help message:</p>
