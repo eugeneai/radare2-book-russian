@@ -84,13 +84,13 @@ git clone https://github.com/radareorg/radare2
 
 Follow these steps to compile the Radare2 Code.
 
-    * **Visual Studio 2017:**
+* **Visual Studio 2017:**
 
-        Note 1: Change `Community` to either `Professional` or `Enterprise` in the command below depending on the version installed.
+  Note 1: Change `Community` to either `Professional` or `Enterprise` in the command below depending on the version installed.
 
-        Note 2: Change `vcvars32.bat` to `vcvars64.bat` in the command below for the 64-bit version.
+  Note 2: Change `vcvars32.bat` to `vcvars64.bat` in the command below for the 64-bit version.
 
-         `"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"`
+  `"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"`
 
 4. Generate the build system with Meson:
 
